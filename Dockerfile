@@ -42,4 +42,4 @@ ENV HOST=0.0.0.0
 # Prisma migrate needs to write to .prisma and check migrations
 RUN chmod -R 755 /app/prisma
 
-CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && node .output/server/index.mjs"]
+CMD ["node", ".output/server/index.mjs"]
