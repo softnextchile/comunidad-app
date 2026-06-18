@@ -41,7 +41,8 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOST=0.0.0.0
 
-# Run as root for prisma, then use nuxtjs for runtime
-RUN chmod -R 755 /app/prisma
+# Run migrations (idempotent - safe to run multiple times)
+# --skip-generate skips Prisma Client regeneration (already built)
+RUN chmod -R 755 /app
 
-CMD ["node", ".output/server/index.mjs"]
+CMD ["sh", "-c", "npx prisma migrate deploy --skip-generate && npx prisma db seed && node .output/server/index.mjs"]
