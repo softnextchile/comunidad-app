@@ -9,7 +9,7 @@ COPY package*.json ./
 RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
 RUN npm install --ignore-scripts
 
-# Stage 2: Build
+# Stage 2: Build - Prisma needs OpenSSL for query engine
 FROM node:20-slim AS builder
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
