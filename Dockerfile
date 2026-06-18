@@ -33,12 +33,13 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/prisma ./prisma
 
-USER nuxtjs
-
 EXPOSE 3000
 
 ENV PORT=3000
 ENV HOST=0.0.0.0
 
-# Run migrations and seed on container start
+# Run as root for Prisma migrations, then switch to non-root for runtime
+# Prisma migrate needs to write to .prisma and check migrations
+RUN chmod -R 755 /app/prisma
+
 CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && node .output/server/index.mjs"]
