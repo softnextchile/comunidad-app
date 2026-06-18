@@ -58,8 +58,3 @@ CREATE TABLE "Configuracion" (
     "updatedAt" TIMESTAMP(3) NOT NULL
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Seccion_clave_key" ON "Seccion"("clave");

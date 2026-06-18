@@ -42,6 +42,5 @@ ENV PORT=3000
 ENV HOST=0.0.0.0
 
 # Run migrations (idempotent), seed, then start server
-RUN chmod -R 755 /app
 
-CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && node .output/server/index.mjs"]
+CMD ["sh", "-c", "npx prisma migrate resolve --rolled-back 20240618000000_init || true && npx prisma migrate deploy && npx prisma db seed && node .output/server/index.mjs"]
