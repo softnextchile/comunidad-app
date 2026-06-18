@@ -31,6 +31,7 @@ RUN groupadd --system --gid 1001 nodejs && \
 COPY --from=builder /app/.output ./.output
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/prisma ./prisma
 
 USER nuxtjs
 
@@ -39,4 +40,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOST=0.0.0.0
 
-CMD ["node", ".output/server/index.mjs"]
+# Run migrations and seed on container start
+CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && node .output/server/index.mjs"]
