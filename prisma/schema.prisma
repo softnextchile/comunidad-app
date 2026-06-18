@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  nombre    String
+  rol       Rol      @default(USUARIO)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Rol {
+  ADMIN
+  USUARIO
+}
+
+model Seccion {
+  id        Int     @id @default(autoincrement())
+  clave     String  @unique
+  titulo    String
+  subtitulo String?
+  contenido String  @db.Text
+  imagenUrl String?
+  esActivo  Boolean @default(true)
+  orden     Int     @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Noticia {
+  id        Int      @id @default(autoincrement())
+  titulo    String
+  resumen   String   @db.Text
+  contenido String   @db.Text
+  imagenUrl String?
+  published Boolean  @default(false)
+  autor     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Contacto {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String
+  telefono  String?
+  mensaje   String   @db.Text
+  leido     Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Configuracion {
+  id    String @id
+  valor String @db.Text
+  descripcion String?
+  updatedAt DateTime @updatedAt
+}
