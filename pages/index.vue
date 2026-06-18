@@ -66,17 +66,22 @@
 </template>
 
 <script setup lang="ts">
-const { fetchSecciones, getSeccion } = useSecciones()
-
+const { data: seccionesData } = await useFetch('/api/secciones')
 const { data: noticiasData } = await useFetch('/api/noticias', {
   query: { limit: 3 }
 })
 
+const secciones = computed(() => seccionesData.value || [])
 const noticias = computed(() => noticiasData.value?.noticias || [])
-const quienesSomos = getSeccion('quienes_somos')
 
-onMounted(() => {
-  fetchSecciones()
+const quienesSomos = computed(() => secciones.value.find(s => s.clave === 'quienes_somos') || {
+  titulo: 'Quiénes Somos',
+  contenido: 'Somos una comunidad dedicada a conectar personas, compartir conocimiento y promover la innovación tecnológica en Chile.'
+})
+
+const hero = computed(() => secciones.value.find(s => s.clave === 'hero') || {
+  titulo: 'Bienvenido a Comunidad Chile',
+  subtitulo: 'Conectando personas, compartiendo conocimiento, innovando juntos.'
 })
 
 const formatDate = (date: string) => {

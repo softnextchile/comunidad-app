@@ -1,9 +1,9 @@
 <template>
   <section class="hero">
     <div class="container">
-      <h1 class="hero-title">{{ hero.titulo || 'Bienvenido a Nuestra Comunidad' }}</h1>
+      <h1 class="hero-title">{{ hero?.titulo || 'Bienvenido a Nuestra Comunidad' }}</h1>
       <p class="hero-subtitle">
-        {{ hero.subtitulo || 'Un espacio para conectar, aprender y crecer juntos en el mundo de la tecnología.' }}
+        {{ hero?.subtitulo || 'Un espacio para conectar, aprender y crecer juntos en el mundo de la tecnología.' }}
       </p>
       <div class="hero-actions">
         <NuxtLink to="/registro" class="btn btn-primary btn-lg">
@@ -18,6 +18,6 @@
 </template>
 
 <script setup lang="ts">
-const { getSeccion } = useSecciones()
-const hero = getSeccion('hero')
+const { data: seccionesData } = await useFetch('/api/secciones')
+const hero = computed(() => seccionesData.value?.find((s: any) => s.clave === 'hero'))
 </script>
