@@ -6,13 +6,13 @@
 FROM node:20-slim AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends openssl curl && rm -rf /var/lib/apt/lists/*
 RUN npm install --ignore-scripts
 
 # Stage 2: Build - Prisma needs OpenSSL for query engine
 FROM node:20-slim AS builder
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends openssl curl && rm -rf /var/lib/apt/lists/*
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npx prisma generate
@@ -23,6 +23,9 @@ FROM node:20-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
+
+# Install curl for healthcheck (Coolify needs it to check container health)
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
 RUN groupadd --system --gid 1001 nodejs && \
@@ -38,8 +41,7 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOST=0.0.0.0
 
-# Run as root for Prisma migrations, then switch to non-root for runtime
-# Prisma migrate needs to write to .prisma and check migrations
+# Run as root for prisma, then use nuxtjs for runtime
 RUN chmod -R 755 /app/prisma
 
 CMD ["node", ".output/server/index.mjs"]
