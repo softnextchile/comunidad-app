@@ -39,4 +39,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOST=0.0.0.0
 
-CMD ["node", ".output/server/index.mjs"]
+# Run migrations on startup, then start server
+CMD ["sh", "-c", "npx prisma migrate deploy && node .output/server/index.mjs"]
