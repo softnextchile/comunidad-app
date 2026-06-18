@@ -16,6 +16,10 @@ export default defineEventHandler(async (event) => {
   if (!user) {
     throw createError({ statusCode: 401, message: 'Credenciales incorrectas' })
   }
+
+  if (!user.emailValidado) {
+    throw createError({ statusCode: 403, message: 'Confirma tu email antes de hacer login. Revisa tu bandeja de entrada.' })
+  }
   
   const isValid = await bcrypt.compare(password, user.password)
   

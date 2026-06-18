@@ -5,11 +5,11 @@ export default defineNuxtConfig({
   
   app: {
     head: {
-      title: 'Comunidad Chile',
+      title: 'Junta de Vecinos Villa Arrayán',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Comunidad de Innovación y Tecnología' }
+        { name: 'description', content: 'Junta de Vecinos Villa Arrayán. Comunicados oficiales, eventos vecinales, servicios y directorio de vecinos.' }
       ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

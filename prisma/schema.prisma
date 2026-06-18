@@ -9,13 +9,20 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  nombre    String
-  rol       Rol      @default(USUARIO)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              Int       @id @default(autoincrement())
+  email           String    @unique
+  password        String
+  nombre          String
+  numeroCasa      String?
+  rol             Rol       @default(USUARIO)
+  emailValidado   Boolean   @default(false)
+  tokenConfirmacion String?
+  tokenExpira     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  solicitudes     Solicitud[]
+  comunicados     Comunicado[]
 }
 
 enum Rol {
@@ -24,28 +31,98 @@ enum Rol {
 }
 
 model Seccion {
-  id        Int     @id @default(autoincrement())
-  clave     String  @unique
+  id        Int      @id @default(autoincrement())
+  clave     String   @unique
   titulo    String
   subtitulo String?
-  contenido String  @db.Text
+  contenido String   @db.Text
   imagenUrl String?
-  esActivo  Boolean @default(true)
-  orden     Int     @default(0)
+  esActivo  Boolean  @default(true)
+  orden     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Noticia {
-  id        Int      @id @default(autoincrement())
-  titulo    String
-  resumen   String   @db.Text
-  contenido String   @db.Text
-  imagenUrl String?
-  published Boolean  @default(false)
-  autor     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Comunicado {
+  id              Int       @id @default(autoincrement())
+  titulo          String
+  resumen         String    @db.Text
+  contenido       String    @db.Text
+  imagenUrl       String?
+  publicado       Boolean   @default(false)
+  esPinned        Boolean   @default(false)
+  autorId         Int?
+  autor           User?     @relation(fields: [autorId], references: [id])
+  fechaPublicacion DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Evento {
+  id          Int       @id @default(autoincrement())
+  titulo      String
+  descripcion String    @db.Text
+  fecha       DateTime
+  hora        String?
+  lugar       String?
+  categoria   CategoriaEvento @default(REUNION)
+  capMax      Int?
+  publicado   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum CategoriaEvento {
+  REUNION
+  FIESTA
+  MANTENCION
+  EMERGENCIA
+  OTRO
+}
+
+model Servicio {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  telefono    String
+  email       String?
+  descripcion String?   @db.Text
+  categoria   CategoriaServicio @default(COMUN)
+  esActivo    Boolean  @default(true)
+  orden       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum CategoriaServicio {
+  GASFITER
+  ELECTRICISTA
+  EMERGENCIA
+  COMUN
+  OTRO
+}
+
+model Solicitud {
+  id          Int            @id @default(autoincrement())
+  titulo      String
+  descripcion String         @db.Text
+  tipo        TipoSolicitud  @default(SOLICITUD)
+  estado      EstadoSolicitud @default(ABIERTA)
+  solicitanteId Int
+  solicitante   User        @relation(fields: [solicitanteId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum TipoSolicitud {
+  RECLAMO
+  SOLICITUD
+  IDEA
+}
+
+enum EstadoSolicitud {
+  ABIERTA
+  EN_PROCESO
+  CERRADA
 }
 
 model Contacto {
