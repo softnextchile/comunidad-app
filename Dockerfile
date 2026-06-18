@@ -6,13 +6,13 @@
 FROM node:20-slim AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN apt-get update && apt-get install -y --no-install-recommends openssl curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends openssl curl wget && rm -rf /var/lib/apt/lists/*
 RUN npm install --ignore-scripts
 
 # Stage 2: Build - Prisma needs OpenSSL for query engine
 FROM node:20-slim AS builder
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends openssl curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends openssl curl wget && rm -rf /var/lib/apt/lists/*
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npx prisma generate
@@ -24,8 +24,8 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Install curl for healthcheck (Coolify needs it to check container health)
-RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+# Install curl and wget for healthcheck (Coolify needs wget)
+RUN apt-get update && apt-get install -y --no-install-recommends curl wget && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
 RUN groupadd --system --gid 1001 nodejs && \
