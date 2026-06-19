@@ -181,7 +181,7 @@ onMounted(load)
 .badge-gray { background: rgba(150,150,150,0.15); color: #888; }
 .cat-badge { font-size: 0.7rem; background: rgba(0,117,222,0.15); color: #0075de; padding: 3px 8px; border-radius: 20px; }
 .empty { padding: 40px; text-align: center; color: #888; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 100; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
 .modal { background: #111318; border: 1px solid #1a1d21; border-radius: 16px; width: 560px; max-width: 95vw; max-height: 90vh; overflow-y: auto; }
 .modal-sm { width: 400px; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #1a1d21; }
@@ -196,4 +196,22 @@ onMounted(load)
 .form-group select { cursor: pointer; }
 .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: #ccc; cursor: pointer; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .table-card { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .modal { width: 98vw !important; max-height: 95vh; }
+  .modal-overlay { padding: 8px; align-items: flex-end; }
+  .modal-body { padding: 16px; }
+  .modal-footer { padding: 12px 16px; }
+  .page-header { flex-wrap: wrap; gap: 12px; }
+  .page-header .btn-primary { width: 100%; text-align: center; justify-content: center; }
+  .form-group input, .form-group textarea, .form-group select { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .admin-main { padding: 16px 12px; padding-top: 72px; }
+  .table th, .table td { padding: 10px 12px; font-size: 0.8rem; }
+  .modal { border-radius: 12px 12px 0 0; }
+}
+
 </style>

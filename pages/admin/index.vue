@@ -160,4 +160,22 @@ function badgeClass(estado: string) {
   text-decoration: none;
 }
 .see-all:hover { text-decoration: underline; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .table-card { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .modal { width: 98vw !important; max-height: 95vh; }
+  .modal-overlay { padding: 8px; align-items: flex-end; }
+  .modal-body { padding: 16px; }
+  .modal-footer { padding: 12px 16px; }
+  .page-header { flex-wrap: wrap; gap: 12px; }
+  .page-header .btn-primary { width: 100%; text-align: center; justify-content: center; }
+  .form-group input, .form-group textarea, .form-group select { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .admin-main { padding: 16px 12px; padding-top: 72px; }
+  .table th, .table td { padding: 10px 12px; font-size: 0.8rem; }
+  .modal { border-radius: 12px 12px 0 0; }
+}
+
 </style>

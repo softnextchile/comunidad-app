@@ -142,7 +142,7 @@ onMounted(load)
 .badge-yellow { background: rgba(255, 180, 0, 0.15); color: #ffb400; }
 .badge-green { background: rgba(0, 200, 83, 0.15); color: #00c853; }
 .empty { padding: 40px; text-align: center; color: #888; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 100; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
 .modal { background: #111318; border: 1px solid #1a1d21; border-radius: 16px; width: 520px; max-width: 95vw; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #1a1d21; }
 .modal-header h3 { font-size: 1rem; font-weight: 600; color: #fff; }
@@ -153,4 +153,22 @@ onMounted(load)
 .detalle-value { font-size: 0.875rem; color: #fff; }
 .detalle-desc { display: flex; flex-direction: column; gap: 8px; }
 .desc-text { color: #ccc; font-size: 0.875rem; line-height: 1.6; background: #0a0c0f; padding: 12px; border-radius: 8px; margin: 0; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .table-card { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .modal { width: 98vw !important; max-height: 95vh; }
+  .modal-overlay { padding: 8px; align-items: flex-end; }
+  .modal-body { padding: 16px; }
+  .modal-footer { padding: 12px 16px; }
+  .page-header { flex-wrap: wrap; gap: 12px; }
+  .page-header .btn-primary { width: 100%; text-align: center; justify-content: center; }
+  .form-group input, .form-group textarea, .form-group select { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .admin-main { padding: 16px 12px; padding-top: 72px; }
+  .table th, .table td { padding: 10px 12px; font-size: 0.8rem; }
+  .modal { border-radius: 12px 12px 0 0; }
+}
+
 </style>
