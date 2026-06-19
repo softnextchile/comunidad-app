@@ -80,6 +80,8 @@ async function main() {
   ]
 
   for (const com of comunicados) {
+    // Delete by titulo to avoid ID conflicts on re-run
+    await prisma.comunicado.deleteMany({ where: { titulo: com.titulo } })
     await prisma.comunicado.create({ data: com })
   }
   console.log('Comunicados creados')
@@ -118,6 +120,7 @@ async function main() {
   ]
 
   for (const evt of eventos) {
+    await prisma.evento.deleteMany({ where: { titulo: evt.titulo } })
     await prisma.evento.create({ data: evt })
   }
   console.log('Eventos creados')
@@ -171,6 +174,7 @@ async function main() {
   ]
 
   for (const svc of servicios) {
+    await prisma.servicio.deleteMany({ where: { nombre: svc.nombre } })
     await prisma.servicio.create({ data: svc })
   }
   console.log('Servicios creados')
