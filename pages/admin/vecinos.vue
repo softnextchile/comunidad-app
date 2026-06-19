@@ -114,9 +114,10 @@ onMounted(load)
 .btn-secondary { background: #1a1d21; color: #fff; border: 1px solid #2a2d31; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 0.875rem; }
 .btn-secondary:disabled, .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .table-card { background: #111318; border: 1px solid #1a1d21; border-radius: 12px; overflow: hidden; }
-.table { width: 100%; border-collapse: collapse; }
+.table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .table th { text-align: left; padding: 12px 16px; font-size: 0.75rem; color: #888; font-weight: 600; text-transform: uppercase; border-bottom: 1px solid #1a1d21; }
-.table td { padding: 14px 16px; font-size: 0.875rem; color: #ccc; border-bottom: 1px solid #1a1d21; }
+.table td { padding: 14px 16px; font-size: 0.875rem; color: #ccc; border-bottom: 1px solid #1a1d21;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .table tr:last-child td { border-bottom: none; }
 .table tr:hover td { background: #16181c; }
 .td-name { color: #fff; font-weight: 500; }

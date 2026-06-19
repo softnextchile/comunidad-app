@@ -119,14 +119,14 @@ onMounted(load)
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
 .page-title { font-size: 1.5rem; font-weight: 700; color: #fff; }
 .table-card { background: #111318; border: 1px solid #1a1d21; border-radius: 12px; overflow: hidden; }
-.table { width: 100%; border-collapse: collapse; }
+.table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .table th { text-align: left; padding: 12px 16px; font-size: 0.75rem; color: #888; font-weight: 600; text-transform: uppercase; border-bottom: 1px solid #1a1d21; }
-.table td { padding: 12px 16px; font-size: 0.875rem; color: #ccc; border-bottom: 1px solid #1a1d21; }
+.table td { padding: 12px 16px; font-size: 0.875rem; color: #ccc; border-bottom: 1px solid #1a1d21; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .table tr:last-child td { border-bottom: none; }
 .table tr:hover td { background: #16181c; }
 .td-title { color: #fff; font-weight: 500; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.td-casa { color: #888; font-size: 0.8rem; }
-.td-date { color: #888; font-size: 0.8rem; white-space: nowrap; }
+.td-casa { color: #888; font-size: 0.8rem; max-width: 80px; }
+.td-date { color: #888; font-size: 0.8rem; white-space: nowrap; max-width: 90px; }
 .btn-icon { background: none; border: none; cursor: pointer; font-size: 0.9rem; padding: 4px; border-radius: 4px; }
 .btn-icon:hover { background: #1a1d21; }
 .type-badge { font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
