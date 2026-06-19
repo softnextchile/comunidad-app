@@ -41,6 +41,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOST=0.0.0.0
 
-# Run migrations (idempotent), seed, then start server
-
-CMD ["sh", "-c", "npx prisma migrate resolve --rolled-back 20240618000000_init || true && npx prisma migrate deploy && npx prisma db seed && node .output/server/index.mjs"]
+# Run migrations, seed, then start server
+CMD ["sh", "-c", "npx prisma migrate resolve --rolled-back 20240618000000_init || true && npx prisma migrate deploy && npx prisma generate && npx tsx prisma/seed.ts && node .output/server/index.mjs"]
