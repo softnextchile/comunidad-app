@@ -9,7 +9,7 @@ COPY package*.json ./
 RUN apt-get update && apt-get install -y --no-install-recommends openssl curl wget && rm -rf /var/lib/apt/lists/*
 RUN npm install --ignore-scripts
 
-# Stage 2: Build - Prisma needs OpenSSL for query engine
+# Stage 2: Build
 FROM node:20-slim AS builder
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends openssl curl wget && rm -rf /var/lib/apt/lists/*
@@ -24,8 +24,8 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Install curl and wget for healthcheck (Coolify needs wget)
-RUN apt-get update && apt-get install -y --no-install-recommends curl wget && rm -rf /var/lib/apt/lists/*
+# sharp se necesita en runtime para la optimizacion de imagenes
+RUN apt-get update && apt-get install -y --no-install-recommends openssl curl wget && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
 RUN groupadd --system --gid 1001 nodejs && \

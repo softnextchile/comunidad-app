@@ -21,6 +21,9 @@
           <NuxtLink v-if="isAdmin" to="/admin" class="btn btn-secondary">
             Panel Admin
           </NuxtLink>
+          <NuxtLink to="/mis-solicitudes" class="btn btn-ghost">
+            Mis Solicitudes
+          </NuxtLink>
           <button @click="logout" class="btn btn-ghost">
             Cerrar Sesión
           </button>

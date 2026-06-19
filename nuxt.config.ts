@@ -24,6 +24,11 @@ export default defineNuxtConfig({
   runtimeConfig: {
     jwtSecret: process.env.JWT_SECRET || 'comunidad-super-secret-key-2024',
     minimaxApiKey: process.env.MINIMAX_API_KEY || '',
+    cloudinary: {
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
+      apiKey: process.env.CLOUDINARY_API_KEY || '',
+      apiSecret: process.env.CLOUDINARY_API_SECRET || '',
+    },
     public: {
       siteName: process.env.NUXT_PUBLIC_SITE_NAME || 'Comunidad Chile'
     }
