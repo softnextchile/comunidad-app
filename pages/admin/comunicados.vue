@@ -39,6 +39,13 @@
         </table>
         <div v-if="items.length === 0" class="empty">No hay comunicados</div>
       </div>
+      <!-- Pagination -->
+      <div v-if="totalPages > 1" class="pagination">
+        <button class="page-btn" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">‹</button>
+        <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
+        <button class="page-btn" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">›</button>
+      </div>
+
 
       <!-- Modal -->
       <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
@@ -110,6 +117,9 @@
 
 <script setup lang="ts">
 const items = ref<any[]>([])
+const currentPage = ref(1)
+const totalPages = ref(1)
+const LIMIT = 20
 const showModal = ref(false)
 const showDelete = ref(false)
 const editing = ref(false)
@@ -121,8 +131,14 @@ const form = reactive({
 })
 
 async function load() {
-  const data = await $fetch<any>('/api/admin/comunicados')
+  const data = await $fetch<any>(`/api/admin/comunicados?page=${currentPage.value}`)
   items.value = data.items
+  totalPages.value = Math.ceil(data.total / data.limit)
+}
+function goToPage(p: number) {
+  if (p < 1 || p > totalPages.value) return
+  currentPage.value = p
+  load()
 }
 
 function openCreate() {
@@ -222,6 +238,28 @@ onMounted(load)
 .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: #ccc; cursor: pointer; }
 .img-preview img { max-width: 200px; max-height: 120px; border-radius: 8px; margin-top: 8px; object-fit: cover; }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  border-top: 1px solid #1a1d21;
+}
+.page-btn {
+  background: #1a1d21;
+  border: 1px solid #2a2d31;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1.1rem;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.page-btn:hover:not(:disabled) { background: #2a2d31; }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.page-info { font-size: 0.8rem; color: #888; min-width: 50px; text-align: center; }
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .table-card { overflow-x: auto; -webkit-overflow-scrolling: touch; }

@@ -36,6 +36,13 @@
         <div v-if="items.length === 0" class="empty">No hay vecinos registrados</div>
       </div>
 
+      <!-- Pagination -->
+      <div v-if="totalPages > 1" class="pagination">
+        <button class="page-btn" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">‹</button>
+        <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
+        <button class="page-btn" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">›</button>
+      </div>
+
       <!-- Create modal -->
       <div v-if="showCreate" class="modal-overlay" @click.self="showCreate = false">
         <div class="modal">
@@ -76,14 +83,23 @@
 
 <script setup lang="ts">
 const items = ref<any[]>([])
+const currentPage = ref(1)
+const totalPages = ref(1)
+const LIMIT = 20
 const showCreate = ref(false)
 const saving = ref(false)
 
 const form = reactive({ nombre: '', email: '', numeroCasa: '', password: '' })
 
 async function load() {
-  const data = await $fetch<any>('/api/admin/vecinos')
+  const data = await $fetch<any>(`/api/admin/vecinos?page=${currentPage.value}`)
   items.value = data.items
+  totalPages.value = Math.ceil(data.total / data.limit)
+}
+function goToPage(p: number) {
+  if (p < 1 || p > totalPages.value) return
+  currentPage.value = p
+  load()
 }
 
 async function crearVecino() {
@@ -142,6 +158,28 @@ onMounted(load)
 .hint { color: #555; font-weight: 400; }
 .form-hint { font-size: 0.75rem; color: #555; margin: 4px 0 0; }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  border-top: 1px solid #1a1d21;
+}
+.page-btn {
+  background: #1a1d21;
+  border: 1px solid #2a2d31;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1.1rem;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.page-btn:hover:not(:disabled) { background: #2a2d31; }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.page-info { font-size: 0.8rem; color: #888; min-width: 50px; text-align: center; }
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .table-card { overflow-x: auto; -webkit-overflow-scrolling: touch; }

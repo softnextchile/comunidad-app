@@ -5,10 +5,19 @@ import { requireAdmin } from '~/server/utils/jwt'
 export default defineEventHandler(async (event) => {
   await requireAdmin(event)
 
+  const query = getQuery(event)
+  const page = Number(query.page) || 1
+  const limit = Number(query.limit) || 20
+  const skip = (page - 1) * limit
+
   const [items, total] = await Promise.all([
-    prisma.evento.findMany({ orderBy: { fecha: 'asc' } }),
+    prisma.evento.findMany({
+      skip,
+      take: limit,
+      orderBy: { fecha: 'asc' },
+    }),
     prisma.evento.count(),
   ])
 
-  return { items, total }
+  return { items, total, page, limit }
 })
