@@ -22,9 +22,11 @@ export function verifyToken(token: string): JWTPayload | null {
 }
 
 export function getTokenFromHeader(event: H3Event): string | null {
+  // Try Authorization header first (client sends Bearer token)
   const authHeader = getHeader(event, 'authorization')
-  if (!authHeader?.startsWith('Bearer ')) return null
-  return authHeader.slice(7)
+  if (authHeader?.startsWith('Bearer ')) return authHeader.slice(7)
+  // Fallback: read httpOnly cookie set by login
+  return getCookie(event, 'auth_token') ?? null
 }
 
 export async function requireAuth(event: H3Event): Promise<JWTPayload> {
